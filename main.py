@@ -1,55 +1,58 @@
-from Carrera import Carrera
-from db_utils import actualizar_tabla_carreras, eliminar_carrera, insertar_carrera, mostrar_tabla
-from db_connection import coneccion_bd
+from degree import Degree
+from dao_degree import update_table, delete_table, create_table, show_table
+from db_connection import connection_bd
 
-seleccion_menu_p = None
-seleccion_menu_carreras = None
-usuario = None
-contrasena = None
-usuario_establecido = False
+select_menu_p = None
+user = None
+password = None
+user_connection = False
 
-        
-def menu_principal():
+
+def main_menu():
     print("1.Gestion carreras")
     print("0.Salir")
 
-while not usuario_establecido:
+
+while not user_connection:
     print("dime tu usuario de la bd")
-    usuario = input()
+    user = input()
     print("dime tu contraseña de la bd")
-    contrasena = input()
-    conneccion = coneccion_bd(usuario,contrasena)
-    if conneccion is not None or False:
+    password = input()
+    connection = connection_bd(user, password)
+    if connection is not None or False:
         print("Conexion establecida")
-        conneccion.close()
-        usuario_establecido = True
+        connection.close()
+        user_connection = True
     else:
         print("Datos introduciodos incorrectos")
 
-while seleccion_menu_p != 0:
-    menu_principal()
-    seleccion_menu_p = int(input())
-    if seleccion_menu_p == 1:
-        while seleccion_menu_carreras != 0:
-            Carrera.menu_carreras()
-            seleccion_menu_carreras = int(input())
-            if seleccion_menu_carreras == 1:
-                print(mostrar_tabla("carreras", usuario, contrasena))
-            elif seleccion_menu_carreras == 2:
-                nombre = input("Dime el nombre de la carrera que quieres insertar: ")
-                carrera = Carrera(nombre)
-                if insertar_carrera(carrera, usuario, contrasena):
-                    print("Carrera insertada correctamente en la bd")
-            elif seleccion_menu_carreras == 3:
-                print(mostrar_tabla("carreras", usuario, contrasena))
-                print("Dime el id de la carrera que quieres cambiar: ")
-                id = int(input())
-                print("Dime el nombre que deberia tener: ")
-                carrera = Carrera(input(), id)
-                if actualizar_tabla_carreras(carrera, usuario, contrasena):
+while select_menu_p != 0:
+    main_menu()
+    select_menu_p = int(input())
+    if select_menu_p == 1:
+        degree_menu = None
+        while degree_menu != 0:
+            Degree.degrees_manager_menu()
+            degree_menu = int(input())
+            if degree_menu == 1:
+                print(show_table("carreras", user, password))
+            elif degree_menu == 2:
+                name = input("Inserta el nombre de la carrera a crear: ")
+                degree = Degree(name)
+                if create_table(degree, user, password):
+                    print("Carrera insertada correctamente en la base de datos")
+            elif degree_menu == 3:
+                print(show_table("carreras", user, password))
+                print("Inserta el id de la carrera que a modificar: ")
+                id_degree = int(input())
+                print("Indica el nuevo nombre de la carrera: ")
+                degree = Degree(input(), id_degree)
+                if update_table(degree, user, password):
                     print("Se ha actulizado el nombre de la carrera")
-                
-            elif seleccion_menu_carreras == 4:
-                print(mostrar_tabla("carreras", usuario, contrasena))
-                print("dime el id de lacarrera que quieres eliminar: ")
-                carrera = Carrera()
+
+            elif degree_menu == 4:
+                print(show_table("carreras", user, password))
+                print("Indica la carrera a eliminar: ")
+                degree = Degree(input().lower())
+                if delete_table(degree, user, password):
+                    print("Se ha eliminado la carrera")
