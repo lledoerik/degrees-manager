@@ -24,11 +24,12 @@ def eliminar_carrera(carrera,usuario,contrasena):
                     sql = "DELETE FROM carreras WHERE idCarrera = %s"
                     cursor.execute(sql, carrera.getIdd())
                     connection.commit()
-                    cursor.close()
-                    connection.close()
                     return True
             except Exception as e:
                 return None
+            finally:
+                connection.close()
+                
             
 def insertar_carrera(carrera,usuario,contrasena):
         connection = coneccion_bd(usuario,contrasena)
@@ -41,7 +42,7 @@ def insertar_carrera(carrera,usuario,contrasena):
                     connection.commit()    
                     return True
             except Exception as e:
-                print(e)
+                    return e
             finally:
                 connection.close()
                 
