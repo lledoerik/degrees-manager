@@ -13,13 +13,13 @@ def menu_principal():
     print("1.Gestion carreras")
     print("0.Salir")
 
-while usuario_establecido != True:
+while not usuario_establecido:
     print("dime tu usuario de la bd")
     usuario = input()
     print("dime tu contraseña de la bd")
     contrasena = input()
     conneccion = coneccion_bd(usuario,contrasena)
-    if conneccion != None or False:
+    if conneccion is not None or False:
         print("Conexion establecida")
         conneccion.close()
         usuario_establecido = True

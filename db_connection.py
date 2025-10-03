@@ -1,7 +1,7 @@
 import mysql.connector
 
 host = "localhost"
-database = "Universidad"
+database = "universidad"
 def coneccion_bd(user, password):
     try:
         connection = mysql.connector.connect(
