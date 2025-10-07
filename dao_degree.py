@@ -5,7 +5,8 @@ array_degree =[]
 class dao_degree:
     def __init__(self):
         self.carrera = Degree(name="")
-    
+        self.__conn = None
+        
     def login(self, con):
         conn = con.connection_bd()
         if conn and conn.is_connected():
@@ -47,10 +48,6 @@ class dao_degree:
                 return array_degree
             except Exception as e:
                 raise e
-
-
-
-
 
     def update_degree(self,degree):
         if self.get_conn().is_connected():
