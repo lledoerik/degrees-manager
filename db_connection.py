@@ -3,16 +3,33 @@ import mysql.connector
 host = "localhost"
 database = "universidad"
 
-
-def connection_bd(user, password):
-    try:
-        connection = mysql.connector.connect(
-            host=host,
-            user=user,
-            password=password,
-            database=database
-        )
-        if connection.is_connected():
-            return connection
-    except mysql.connector.Error as err:
-        return None
+class db_connection:
+    def __init__(self,user,password):
+        self.set_user(user)
+        self.set_password(password) 
+  
+    def connection_bd(self):
+        try:
+            connection = mysql.connector.connect(
+                host=host,
+                user=self.user,
+                password=self.password,
+                database=database
+            )
+            if connection.is_connected():
+                return connection
+        except mysql.connector.Error as err:
+            return None
+    
+    def get_user(self):
+        return self.__user
+    
+    def get_password(self):
+        return self.__password
+    
+    def set_user(self,user):
+        self.__user = user
+        
+    def set_password(self,password):
+        self.__password = password
+            
