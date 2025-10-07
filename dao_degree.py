@@ -1,4 +1,3 @@
-from db_connection import db_connection
 from degree import Degree
 
 array_degree =[]
@@ -8,9 +7,8 @@ class dao_degree:
         self.__conn = None
         
     def login(self, con):
-        conn = con.connection_bd()
-        if conn and conn.is_connected():
-            self.set_conn(conn)
+        if con and con.is_connected():
+            self.set_conn(con)
             return True
         return False
 
@@ -42,6 +40,7 @@ class dao_degree:
                 with conn.cursor() as cursor:
                     cursor.execute(f"SELECT * FROM {table}")
                     results = cursor.fetchall()
+                    print(results)
                     for i in results:
                         degree = Degree(i[1], i[0])
                         array_degree.append(degree)

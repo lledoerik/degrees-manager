@@ -5,15 +5,15 @@ database = "universidad"
 
 class db_connection:
     def __init__(self,user,password):
-        self.set_user(user)
-        self.set_password(password) 
+        self.__user = user
+        self.__password = password
   
     def connection_bd(self):
         try:
             connection = mysql.connector.connect(
                 host=host,
-                user=self.user,
-                password=self.password,
+                user=self.get_user(),
+                password=self.get_password(),
                 database=database
             )
             if connection.is_connected():

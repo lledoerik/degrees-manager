@@ -12,7 +12,6 @@ def login():
     password = request.args.get("password")
     con = db_connection(user, password)
     conn = con.connection_bd()
-    
     success = False
     if conn and conn.is_connected():
         success = dao.login(conn)
@@ -23,9 +22,7 @@ def login():
 @app.route("/insert")
 def insert_degree_api():
     degree = request.args.get("degree")
-    user = request.args.get("user")
-    password = request.args.get("password")
-    result = dao.insert_degree(degree, user, password)
+    result = dao.insert_degree(degree)
     return jsonify({"status": "success", "message": "Degree inserted"})
 
 
