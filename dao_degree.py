@@ -17,7 +17,7 @@ def insert_degree(degree, user, password):
     return None
 
 
-def show_table(table, user, password):
+def show_degrees(table, user, password):
     sql = f"SELECT * FROM {table}"
     connection = connection_bd(user, password)
     if connection.is_connected():

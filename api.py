@@ -1,5 +1,5 @@
 from flask import Flask
-from dao_degree import create_table, show_table, update_table, delete_table
+from dao_degree import insert_degree, show_degrees, update_degree, delete_degree
 
 app = Flask(__name__)
 
