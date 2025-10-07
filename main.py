@@ -1,5 +1,5 @@
 from degree import Degree
-from dao_degree import update_degree, delete_degree, insert_degree, show_table
+from dao_degree import update_degree, delete_degree, insert_degree, show_degrees
 from db_connection import connection_bd
 import requests as req
 
@@ -47,20 +47,20 @@ while select_menu_p != 0:
             elif degree_menu == 2:
                 name = input("Inserta el nombre de la carrera a crear: ")
                 degree = Degree(name)
-                if create_table(degree, user, password):
+                if insert_degree(degree, user, password):
                     print("Carrera insertada correctamente en la base de datos")
             elif degree_menu == 3:
-                print(show_table("carreras", user, password))
+                print(show_degrees("carreras", user, password))
                 print("Inserta el id de la carrera que a modificar: ")
                 id_degree = int(input())
                 print("Indica el nuevo nombre de la carrera: ")
                 degree = Degree(input(), id_degree)
-                if update_table(degree, user, password):
+                if update_degree(degree, user, password):
                     print("Se ha actulizado el nombre de la carrera")
 
             elif degree_menu == 4:
-                print(show_table("carreras", user, password))
+                print(show_degrees("carreras", user, password))
                 print("Indica la carrera a eliminar: ")
                 degree = Degree(input().lower())
-                if delete_table(degree, user, password):
+                if delete_degree(degree, user, password):
                     print("Se ha eliminado la carrera")
