@@ -1,5 +1,5 @@
 from flask import Flask,request,jsonify
-from dao_degree import update_degree, delete_degree, insert_degree, show_degrees, dao_degree
+from dao_degree import dao_degree
 from db_connection import db_connection
 
 
@@ -10,13 +10,14 @@ dao = dao_degree()
 def login():
     user = request.args.get("user")
     password = request.args.get("password")
-    con = db_connection(user,password)
+    con = db_connection(user, password)
     conn = con.connection_bd()
-    dao.login(conn)
-    if conn.is_connected():
-        return jsonify({"login": True})
-    else:
-        return jsonify({"login": False})
+    
+    success = False
+    if conn and conn.is_connected():
+        success = dao.login(conn)
+
+    return jsonify({"login": success})
 
 
 @app.route("/insert")
@@ -24,16 +25,14 @@ def insert_degree_api():
     degree = request.args.get("degree")
     user = request.args.get("user")
     password = request.args.get("password")
-    result = insert_degree(degree, user, password)
+    result = dao.insert_degree(degree, user, password)
     return jsonify({"status": "success", "message": "Degree inserted"})
 
 
 @app.route("/show", methods=["GET"])
 def show_degrees_api():
     table = request.args.get("table")
-    user = request.args.get("user")
-    password = request.args.get("password")
-    array = show_degrees(table, user, password)
+    array = dao.show_degrees(table)
     return jsonify([d.to_dict() for d in array])
 
 

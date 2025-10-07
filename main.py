@@ -1,6 +1,5 @@
 from degree import Degree
-from dao_degree import update_degree, delete_degree, insert_degree, show_degrees
-from db_connection import connection_bd
+from dao_degree import dao_degree
 import requests as req
 
 select_menu_p = None

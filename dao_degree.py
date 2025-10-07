@@ -1,50 +1,54 @@
-from db_connection import connection_bd
-from degree import Degree
 from db_connection import db_connection
+from degree import Degree
+
 array_degree =[]
 class dao_degree:
     def __init__(self):
-        self.carrera = Degree()
+        self.carrera = Degree(name="")
     
-    def login(self,con):
-        conn = con.connection_db()
-        self.set_conn(conn)
-    
+    def login(self, con):
+        conn = con.connection_bd()
+        if conn and conn.is_connected():
+            self.set_conn(conn)
+            return True
+        return False
+
+        
     def get_conn(self):
         return self.__conn
+    
     def set_conn(self,conn):
         self.__conn = conn
                
     def insert_degree(self,degree):
-        
-        if self.get_conn().is_connected():
+        conn = self.get_conn()
+        if conn.is_connected():
             try:
-                with self.get_conn().cursor() as cursor:
+                with conn.cursor() as cursor:
                     sql = "INSERT INTO carreras (Nombre) VALUES (%s)"
                     val = (degree.get_name(),)
                     cursor.execute(sql, val)
-                    self.get_conn().commit()
+                    conn.commit()
                     return True
             except Exception as e:
                 return None
-            finally:
-                self.get_conn().close()
-
-    def show_degrees(self,table):
-        sql = f"SELECT * FROM {table}"
-        if self.get_conn().is_connected():
+            
+    def show_degrees(self, table):
+        array_degree = []
+        conn = self.get_conn()
+        if conn and conn.is_connected():
             try:
-                with self.get_conn().cursor() as cursor:
-                    cursor.execute(sql)
+                with conn.cursor() as cursor:
+                    cursor.execute(f"SELECT * FROM {table}")
                     results = cursor.fetchall()
                     for i in results:
-                        degree = Degree(i[1],i[0])
+                        degree = Degree(i[1], i[0])
                         array_degree.append(degree)
-                    return array_degree
+                return array_degree
             except Exception as e:
-                return e
-            finally:
-                self.get_conn().close()
+                raise e
+
+
 
 
 
