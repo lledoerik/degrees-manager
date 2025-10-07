@@ -1,8 +1,8 @@
 from db_connection import connection_bd
 from degree import Degree
 
-
-def create_table(degree, user, password):
+array_degree =[]
+def insert_degree(degree, user, password):
     connection = connection_bd(user, password)
     if connection.is_connected():
         try:
@@ -14,8 +14,6 @@ def create_table(degree, user, password):
                 return True
         except Exception as e:
             return None
-        finally:
-            connection.close()
     return None
 
 
@@ -27,14 +25,16 @@ def show_table(table, user, password):
             with connection.cursor() as cursor:
                 cursor.execute(sql)
                 results = cursor.fetchall()
-                return results
+                for i in results:
+                    degree = Degree(i[1],i[0])
+                    array_degree.append(degree)
+                return array_degree
         except Exception as e:
             return e
-        finally:
-            connection.close()
 
 
-def update_table(degree, user, password):
+
+def update_degree(degree, user, password):
     connection = connection_bd(user, password)
     if connection.is_connected():
         try:
@@ -46,11 +46,9 @@ def update_table(degree, user, password):
                 return True
         except Exception as e:
             return None
-        finally:
-            connection.close()
 
 
-def delete_table(degree, user, password):
+def delete_degree(degree, user, password):
     connection = connection_bd(user, password)
     if connection.is_connected():
         try:
@@ -64,6 +62,3 @@ def delete_table(degree, user, password):
                 return True
         except Exception as e:
             return None
-
-        finally:
-            connection.close()
