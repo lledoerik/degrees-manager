@@ -9,24 +9,24 @@ def main():
     return "<h1>DEGREES MANAGER</h1>"
 
 
-@app.route("/create")
-def create_table():
-    return create_table()
+@app.route("/insert")
+def insert_degree():
+    return insert_degree()
 
 
 @app.route("/show")
-def show_table():
-    return show_table()
+def show_degrees():
+    return show_degrees()
 
 
 @app.route("/update")
-def update_table():
-    return update_table
+def update_degree():
+    return update_degree
 
 
 @app.route("/delete")
-def delete_table():
-    return delete_table()
+def delete_degree():
+    return delete_degree()
 
 
 app.run()
