@@ -1,6 +1,7 @@
 from degree import Degree
-from dao_degree import update_table, delete_table, create_table, show_table
+from dao_degree import update_degree, delete_degree, insert_degree, show_table
 from db_connection import connection_bd
+import requests as req
 
 select_menu_p = None
 user = None
@@ -35,7 +36,14 @@ while select_menu_p != 0:
             Degree.degrees_manager_menu()
             degree_menu = int(input())
             if degree_menu == 1:
-                print(show_table("carreras", user, password))
+                response = req.get("http://localhost:5000/show", params={"table": "carreras", "user": user, "password":password})
+                if response.status_code == 200:
+                    data = response.json()  # lista de diccionarios
+                    degrees = [Degree.from_dict(item) for item in data]  # reconstruyes tus objetos
+                    for d in degrees:
+                        print(f"{d.get_id()}: {d.get_name()}")
+                else:
+                    print("Error:", response.status_code)
             elif degree_menu == 2:
                 name = input("Inserta el nombre de la carrera a crear: ")
                 degree = Degree(name)

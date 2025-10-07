@@ -14,8 +14,8 @@ def insert_degree(degree, user, password):
                 return True
         except Exception as e:
             return None
-    return None
-
+        finally:
+            connection.close()
 
 def show_table(table, user, password):
     sql = f"SELECT * FROM {table}"
@@ -31,6 +31,8 @@ def show_table(table, user, password):
                 return array_degree
         except Exception as e:
             return e
+        finally:
+            connection.close()
 
 
 
@@ -46,7 +48,8 @@ def update_degree(degree, user, password):
                 return True
         except Exception as e:
             return None
-
+        finally:
+            connection.close()
 
 def delete_degree(degree, user, password):
     connection = connection_bd(user, password)
@@ -62,3 +65,5 @@ def delete_degree(degree, user, password):
                 return True
         except Exception as e:
             return None
+        finally:
+            connection.close()

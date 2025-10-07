@@ -14,7 +14,13 @@ class Degree:
 
     def get_id(self):
         return self.__id
-
+    
+    def to_dict(self):
+        return {
+            "name": self.__name,
+            "id": self.__id
+        }
+        
     @classmethod
     def degrees_manager_menu(self):
         print("1.Mostrar carreras")
@@ -22,3 +28,8 @@ class Degree:
         print("3.Actualizar carrera")
         print("4.Eliminar carrera")
         print("0.Volver al menu principal")
+   
+
+    @classmethod
+    def from_dict(cls, data):
+        return cls(name=data["name"], id=data["id"])

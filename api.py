@@ -1,12 +1,7 @@
-from flask import Flask
-from dao_degree import create_table, show_table, update_table, delete_table
+from flask import Flask,request,jsonify
+from dao_degree import update_degree, delete_degree, insert_degree, show_table
 
 app = Flask(__name__)
-
-
-@app.route("/")
-def main():
-    return "<h1>DEGREES MANAGER</h1>"
 
 
 @app.route("/insert")
@@ -14,14 +9,18 @@ def insert_degree():
     return insert_degree()
 
 
-@app.route("/show")
+@app.route("/show", methods=["GET"])
 def show_degrees():
-    return show_degrees()
+    table = request.args.get("table")
+    user = request.args.get("user")
+    password = request.args.get("password")
+    array = show_table(table,user,password)
+    return jsonify([d.to_dict() for d in array]) 
 
 
 @app.route("/update")
 def update_degree():
-    return update_degree
+    return update_degree()
 
 
 @app.route("/delete")
