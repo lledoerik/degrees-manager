@@ -35,10 +35,8 @@ def show_degrees_api():
 
 @app.route("/update")
 def update_degree_api():
-    table = request.args.get("table")
-    user = request.args.get("user")
-    password = request.args.get("password")
-    result = update_degree(table, user, password)
+    table = request.args.get("name")
+    result = dao.update_degree(name)
     return jsonify({"status": "success", "message": "Degree updated"})
 
 
@@ -47,7 +45,7 @@ def delete_degree_api():
     table = request.args.get("table")
     user = request.args.get("user")
     password = request.args.get("password")
-    result = delete_degree(table, user, password)
+    result = dao.delete_degree(table, user, password)
     return jsonify({"status": "success", "message": "Degree deleted"})
 
 

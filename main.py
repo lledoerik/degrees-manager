@@ -57,8 +57,9 @@ while select_menu_p != 0:
 
             elif degree_menu == 3:
                 response = req.get("http://localhost:5000/update",
-                                   params={"table": "carreras", "user": user, "password": password})
-                print(show_degrees("carreras", user, password))
+                                   params={"name": new_name, "id": id_degree})
+                for d in degrees:
+                        print(f"{d.get_id()}: {d.get_name()}")
                 id_degree = int(input("Introduce el ID de la carrera a modificar: "))
                 new_name = input("Introduce el nuevo nombre de la carrera: ")
                 if response.status_code == 200:
@@ -70,7 +71,7 @@ while select_menu_p != 0:
             elif degree_menu == 4:
                 response = req.get("http://localhost:5000/delete",
                                    params={"table": "carreras", "user": user, "password": password})
-                print(show_degrees("carreras", user, password))
+                #print(show_degrees("carreras", user, password))
                 degree_name = input("Indica la carrera a eliminar: ")
                 if response.status_code == 200:
                     degree = Degree(input().lower())
